@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lined Love Letter 💌</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500&display=swap');
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffdee9, #b5fffc);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.btn {
+  background: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  margin-top: 25px;
+  z-index: 10;
+}
+
+.btn:hover {
+  background: #fff0f6;
+  transform: scale(1.05);
+}
+
+.envelope {
+  width: 280px;
+  height: 180px;
+  background: #ff9ecd;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  overflow: hidden;
+  transition: all 2s ease;
+  z-index: 5;
+}
+
+.envelope.expand {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.flap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffb6c1;
+  clip-path: polygon(0 0, 50% 60%, 100% 0);
+  transform-origin: top;
+  transition: transform 1.5s ease;
+  z-index: 3;
+}
+
+.heart-seal {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  z-index: 4;
+}
+
+.letter {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 90%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    #fffaf5, #fffaf5 28px, #fddde6 29px
+  ); /* lined paper effect */
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(255,182,193,0.5);
+  overflow: hidden;
+  transition: all 2s ease;
+  z-index: 2;
+  border: 2px solid rgba(255, 192, 203, 0.3);
+}
+
+.letter.open {
+  height: 85vh;
+  width: 80vw;
+  transform: translateX(-50%) translateY(-20%);
+  border-radius: 20px;
+}
+
+.message {
+  opacity: 0;
+  color: #d63384;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.3rem;
+  padding: 120px 40px 30px; /* positioned lower */
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+  transition: opacity 1.5s ease;
+}
+
+.letter.open .message {
+  opacity: 1;
+  transition-delay: 1.5s;
+}
+
+.emoji {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  animation: floatUp 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope">
+  <div class="flap" id="flap"></div>
+  <div class="heart-seal">💖</div>
+  <div class="letter" id="letter">
+    <div class="message" id="message">
+      💌 My dearest,<br>
+      Every line I write feels like your smile,<br>
+      every word carries your warmth.<br>
+      You are my favorite page in this story of love. 💞
+    </div>
+  </div>
+</div>
+
+<button class="btn" id="openBtn">Open 💌</button>
+<button class="btn" id="closeBtn" style="display:none;">Close ❌</button>
+
+<script>
+const flap = document.getElementById("flap");
+const envelope = document.getElementById("envelope");
+const letter = document.getElementById("letter");
+const openBtn = document.getElementById("openBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+openBtn.addEventListener("click", () => {
+  envelope.classList.add("expand");
+  setTimeout(() => {
+    flap.style.transform = "rotateX(-160deg)";
+  }, 1000);
+  setTimeout(() => {
+    letter.classList.add("open");
+  }, 2000);
+  openBtn.style.display = "none";
+  closeBtn.style.display = "inline-block";
+  createEmojis();
+});
+
+closeBtn.addEventListener("click", () => {
+  flap.style.transform = "rotateX(0deg)";
+  letter.classList.remove("open");
+  setTimeout(() => {
+    envelope.classList.remove("expand");
+  }, 1000);
+  closeBtn.style.display = "none";
+  openBtn.style.display = "inline-block";
+});
+
+function createEmojis() {
+  const emojis = ["💖","💞","💕","💘","🌸","🌹","✨","🦋"];
+  const interval = setInterval(() => {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 6000);
+  }, 400);
+  setTimeout(() => clearInterval(interval), 8000);
+}
+</script>
+
+</body>
+</html>
